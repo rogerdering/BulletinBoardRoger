@@ -1,0 +1,11 @@
+doctype html
+html
+	head
+		script(src="https://code.jquery.com/jquery-2.2.0.min.js")
+	body
+		a(href='/post') Post a message
+		h2 Bulletin Board
+		div
+			each message in messages
+				p= message.title
+				p= message.body

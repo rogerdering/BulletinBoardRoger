@@ -1,0 +1,19 @@
+doctype html
+html
+	head
+		script(src="https://code.jquery.com/jquery-2.2.0.min.js")
+	body
+		a(href='/') Back to Bulletin Board
+		h2 Post a message
+		div
+			form(action='/post',method='post')
+				div(data-role='fieldcontain')
+					fieldset(data-role='controlgroup')
+						label(for='title') Title: 
+							input(id='title',type='text',value='',placeholder='',name='title')
+				div(data-role='fieldcontain')
+					fieldset(data-role='controlgroup')
+						label(for='body') Body: 
+							input(id='body',type='text',value='',placeholder='',name='body')
+				div(data-role='fieldcontain')   
+					input(type='submit',value='Add',data-transition='fade', data-theme='c')
