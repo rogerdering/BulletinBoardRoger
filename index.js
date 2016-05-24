@@ -50,7 +50,7 @@ app.post ( '/post', function ( request, response ) {
 			return;
 		}
 
-		client.query('insert into messages (title, body) values ($1, $2)', [request.body.title, request.body.body], function (err) {
+		client.query('insert into messages (title, body) values ($1, $2)', [request.body.title], [request.body.body], function (err) {
 			if(err) {
 				throw err;
 			}
