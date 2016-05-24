@@ -1,6 +1,9 @@
+var express = require ( 'express' )
 var http = require('http');
 var pg = require('pg');
 var jade = require('jade');
+
+var app = express ( )
 
 app.set ( 'views', '.' )
 app.set( 'view engine', 'jade' )
@@ -22,17 +25,20 @@ app.get ( '/', function ( request, response ) {
 			} else {
 				done();
 			}
+			console.log(result.rows)
+			var databaseData = result.rows
 
-			var databaseData = (result.rows);
-		});
-	});
-	response.render ( "board" )
-	messages : databaseData
+		} );
+		response.render ( "board", { 
+			messages : databaseData
+		} )
+	} );
+	
 } )
 
 
 app.get ( '/post', function ( request, response ) { 
-	response.render ( "post" { 
+	response.render ( "post", { 
 	} )
 } )
 
@@ -46,15 +52,16 @@ app.post ( '/post', function ( request, response ) {
 			return;
 		}
 
-	client.query('insert into messages values ($1, $2)', [request.body], function (err) {
-		if(err) {
-			throw err;
-		}
+		client.query('insert into messages values ($1, $2)', [request.body], function (err) {
+			if(err) {
+				throw err;
+			}
 
-		done();
-		pg.end();
-	});
-	response.redirect ( '/' )
+			done();
+			pg.end();
+		} );
+		response.redirect ( '/' )
+	} )
 } )
 
 var server = app.listen ( 3000, function ( ) {
