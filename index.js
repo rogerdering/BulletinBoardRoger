@@ -9,7 +9,7 @@ app.set ( 'views', '.' )
 app.set( 'view engine', 'jade' )
 
 app.get ( '/', function ( request, response ) {
-	var connectionString = 'postgres://' + process.env.POSTGRES_USER + ':' + process.env.POSTGRES_PASSWORD + '@localhost:5432/bulletinboard';
+	var connectionString = 'postgres://' + process.env.POSTGRES_USER + ':' + process.env.POSTGRES_PASSWORD + '@localhost/bulletinboard';
 	pg.connect(connectionString, function (err, client, done) {
 		if (err) {
 			if (client) {
@@ -17,7 +17,6 @@ app.get ( '/', function ( request, response ) {
 			}
 			return;
 		}
-
 		client.query('select * from messages', function (err, result) {
 			if (err) {
 				done(client);
@@ -26,12 +25,11 @@ app.get ( '/', function ( request, response ) {
 				done();
 			}
 			console.log(result.rows)
-			var databaseData = result.rows
-
+			response.render ( "board", { 
+				messages : result.rows
+			} )
 		} );
-		response.render ( "board", { 
-			messages : databaseData
-		} )
+		
 	} );
 	
 } )
@@ -52,7 +50,7 @@ app.post ( '/post', function ( request, response ) {
 			return;
 		}
 
-		client.query('insert into messages (title, body) values ($1, $2)', [request.body], function (err) {
+		client.query('insert into messages (title, body) values ($1, $2)', [request.body.title, request.body.body], function (err) {
 			if(err) {
 				throw err;
 			}
