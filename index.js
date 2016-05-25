@@ -26,16 +26,17 @@ app.get ( '/', function ( request, response ) {
 				return;
 			} else {
 				done();
+				console.log(result.rows)
+				response.render ( "./", { 
+					messages : result.rows
+				})
 			}
-			console.log(result.rows)
-			response.render ( "board", { 
-				messages : result.rows
-			} )
-		} );
-		
+
+		} )
 	} );
-	
-} )
+
+} );
+
 
 
 app.get ( '/post', function ( request, response ) { 
